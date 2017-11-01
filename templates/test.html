@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/JSXTransformer.js"></script>
+</head>
+
+
+
+<body>
+                <h2>Twitter</h2>
+                <div class="row" id="tweets">
+
+                </div>
+
+</body>
+
+<script type="text/jsx">
+var Input = React.createClass({
+    render: function(){
+        return (
+                    <div class="col">
+                        <div class="card">
+                          <div class="card-block">
+                            <p class="card-text">{{ tweet | safe }}
+                              <br>
+                              {{ date | safe }}
+                              </p>
+                          </div>
+                        </div>
+                    </div>
+        )
+    }
+});
+
+React.render(<Input/>, document.getElementById('tweets'));
+</script>
+</html>

@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from twitter.raw import *
+from price.raw import *
 
 app = Flask(__name__)
 
@@ -17,17 +18,14 @@ def index():
 def grid():
     return render_template('grid.html')
 
-# extension of grid
 
+@app.route("/dashboard", methods=['GET', 'POST'])
+def dashboard():
 
-@app.route("/home", methods=['GET', 'POST'])
-def home():
-
-    test = Tweets(['ethereum', 'bitcoin'])
-
-    tweets = test.get_tweets()
-
-    return render_template('test.html',tweets = tweets)
+    return render_template('dashboard.html', tweets = Tweets(['ethereum', 'bitcoin', 'litecoin']).get_tweets(),
+                           btc_price="${0:,.2f}".format(Prices('BTC').last_price()),
+                           btc_change="${0:,.2f}".format(Prices('BTC').last_price() - Prices('BTC').first_price()),
+                           output=Prices('BTC').widget_graph())
 
 @app.route("/bitcoin", methods=['GET', 'POST'])
 def bitcoin():

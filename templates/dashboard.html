@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <title>Dashboard</title>
   <meta charset="utf-8">
@@ -7,12 +7,16 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+
 </head>
 <body>
+<!--<script src="/static/graphs/today_graph.js"></script>   this is not working/loading... hard coded in html below-->
+<script>
+/* Highcharts for dashboard coins -- on load... not a very scalable solution.. need better way to reuse code */
 
-<script type="text/javascript">
 $(function () {
+// begin chart for btc
     $('#btc_chart').highcharts({
         chart: {
             zoomType: 'x',
@@ -89,13 +93,173 @@ $(function () {
         series: [{
             type: 'area',
             showInLegend: false,
-            data: {{output | safe}}
+            data: {{btc_data | safe}}
+        }]
+    });
+
+// begin chart for eth
+    $('#eth_chart').highcharts({
+        chart: {
+            zoomType: 'x',
+           // type: 'line'
+        },
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+
+            lineWidth: 0,
+            minorGridLineWidth: 0,
+            lineColor: 'transparent',
+            labels: {
+                enabled: false
+            },
+            minorTickLength: 0,
+            tickLength: 0,
+            type: 'datetime',
+            gridLineWidth: 0,
+            title: {
+                text: null
+                },
+        },
+        title: {
+            text: false
+        },
+        yAxis: {
+            labels: {
+                enabled: false
+            },
+            title: {
+                text: null
+                },
+            gridLineWidth: 0
+        },
+        tooltip: {
+            valueDecimals: 2,
+            valuePrefix: '$',
+            seriesName: ''
+            //valueSuffix: ' USD'
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            },
+            series: {
+                tooltip: {
+                    pointFormat: '<b>{point.y}</b><br/>'
+                }
+            }
+        },
+        series: [{
+            type: 'area',
+            showInLegend: false,
+            data: {{eth_data | safe}}
+        }]
+    });
+
+// begin chart for ltc
+    $('#ltc_chart').highcharts({
+        chart: {
+            zoomType: 'x',
+           // type: 'line'
+        },
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+
+            lineWidth: 0,
+            minorGridLineWidth: 0,
+            lineColor: 'transparent',
+            labels: {
+                enabled: false
+            },
+            minorTickLength: 0,
+            tickLength: 0,
+            type: 'datetime',
+            gridLineWidth: 0,
+            title: {
+                text: null
+                },
+        },
+        title: {
+            text: false
+        },
+        yAxis: {
+            labels: {
+                enabled: false
+            },
+            title: {
+                text: null
+                },
+            gridLineWidth: 0
+        },
+        tooltip: {
+            valueDecimals: 2,
+            valuePrefix: '$',
+            seriesName: ''
+            //valueSuffix: ' USD'
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            },
+            series: {
+                tooltip: {
+                    pointFormat: '<b>{point.y}</b><br/>'
+                }
+            }
+        },
+        series: [{
+            type: 'area',
+            showInLegend: false,
+            data: {{ltc_data | safe}}
         }]
     });
 });
 </script>
-
-
 <div class="container-fluid">
 
                         <!-- Page Heading -->
@@ -143,23 +307,45 @@ $(function () {
 
                     <div class="col">
                         <div class="card">
-                          <img class="card-img-top" src="..." alt="Card image cap">
-                          <div class="card-block">
-                            <h4 class="card-title">Ethereum</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="{{ url_for('ethereum') }}" class="btn btn-primary">ETH HOME</a>
-                          </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="card-block">
+                                        <img src="/static/coins/ether.svg" alt="BTC">
+                                        <h4 class="card-title">Ethereum</h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card-block">
+                                        <h4 class="card-text-right">{{ eth_price | safe }}</h4>
+                                        <h6 class="card-text-right">{{ eth_change | safe }}</h6>
+                                        <p class="card-text"><small class="text-muted">Last updated 5 mins ago</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                                <div id= "eth_chart" style="height: 10rem;"></div>
+                                <a href="{{ url_for('ethereum') }}" class="btn btn-primary">ETH HOME</a>
                         </div>
                     </div>
 
                     <div class="col">
                         <div class="card">
-                          <img class="card-img-top" src="..." alt="Card image cap">
-                          <div class="card-block">
-                            <h4 class="card-title">Litecoin</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="{{ url_for('litecoin') }}" class="btn btn-primary">LTC HOME</a>
-                          </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="card-block">
+                                        <img src="/static/coins/litecoin.svg" alt="BTC">
+                                        <h4 class="card-title">Litecoin</h4>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card-block">
+                                        <h4 class="card-text-right">{{ ltc_price | safe }}</h4>
+                                        <h6 class="card-text-right">{{ ltc_change | safe }}</h6>
+                                        <p class="card-text"><small class="text-muted">Last updated 5 mins ago</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                                <div id= "ltc_chart" style="height: 10rem;"></div>
+                                <a href="{{ url_for('litecoin') }}" class="btn btn-primary">LTC HOME</a>
                         </div>
                     </div>
 
@@ -237,58 +423,23 @@ $(function () {
                  </div> <!--close row-->
                 {% endif %}
 
+                {% if comments %}
                 <h2>Reddit</h2>
                 <div class="row">
-                    <div class="col">
-                        <div class="card">
-                          <div class="card-block">
-                            <p class="card-text">Love this price rise in #ethereum</p>
+                      {% for comment in comments%}
+                          <div class="col">
+                              <div class="card">
+                                <div class="card-block">
+                                  <p class="card-text">{{ comment[0] | safe }}
+                                    <br>
+                                      <strong>{{ comment[1] | safe }}</strong>
+                                    </p>
+                                </div>
+                              </div>
                           </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                          <div class="card-block">
-                            <p class="card-text">Love this price rise in #ethereum</p>
-                          </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col">
-                        <div class="card">
-                          <div class="card-block">
-                            <p class="card-text">Is this the next bitcoin? #litecoin #bitcoin</p>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                          <div class="card-block">
-                            <p class="card-text">Love this price rise in #bitcoin</p>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                          <div class="card-block">
-                            <p class="card-text">jamie dimon is a little bi*tch #decentralization</p>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                          <div class="card-block">
-                            <p class="card-text">Go ether! #ETH</p>
-                          </div>
-                        </div>
-                    </div>
-
-                </div> <!--close row-->
+                      {% endfor %}
+                 </div> <!--close row-->
+                {% endif %}
 
 </div>
 

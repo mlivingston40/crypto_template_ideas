@@ -10,6 +10,7 @@ class Tweets:
 
         self.keywords = keywords
 
+    # data from twitter, last 10 tweets for each keyword
     def get_tweets(self):
 
         tweets = []

@@ -354,56 +354,26 @@ $(function () {
 </div> <!--close prices-->
 
 
-<div class="container-fluid" id="dash">  <!--searchable information-->
+<div class="container-fluid" id="dash">  <!--searchable information via jquery function-->
 
+                {% if news %}
                 <h2>News</h2>
                 <div class="row">
-                    <div class="col">
-                        <div class="card">
-                          <img class="card-img-top" src="..." alt="Card image cap">
-                          <div class="card-block">
-                            <h4 class="card-title">Bitcoin blows up</h4>
-                            <p class="card-text">Some quick example text to test on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                      {% for new in news%}
+                          <div class="col">
+                              <div class="card">
+                                <div class="card-block">
+                                  <h5 class="card-title">{{ new[0] | safe }}</h5>
+                                  <p class="card-text">{{ new[1] | safe }}
+                                    <br>
+                                    <a href="{{ new[2] | safe }}" target="_blank" class="btn btn-primary">Full Article</a>
+                                    </p>
+                                </div>
+                              </div>
                           </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                          <img class="card-img-top" src="..." alt="Card image cap">
-                          <div class="card-block">
-                            <h4 class="card-title">Is crypto doomed</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                          </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col">
-                        <div class="card">
-                          <img class="card-img-top" src="..." alt="Card image cap">
-                          <div class="card-block">
-                            <h4 class="card-title">Investors bet big</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card">
-                          <img class="card-img-top" src="..." alt="Card image cap">
-                          <div class="card-block">
-                            <h4 class="card-title">Investors bet big</h4>
-                            <p class="card-text">Why Ethereum may be better than bitcoin title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                          </div>
-                        </div>
-                    </div>
-
-                </div> <!--close row-->
+                      {% endfor %}
+                 </div> <!--close row-->
+                {% endif %}
 
                 {% if tweets %}
                 <h2>Twitter</h2>

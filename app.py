@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from twitter.raw import *
 from price.raw import *
 from reddit.raw import *
+from news.raw import *
 
 app = Flask(__name__)
 
@@ -31,7 +32,8 @@ def dashboard():
                            ltc_price="${0:,.2f}".format(Prices('LTC').last_price()),
                            ltc_change="${0:,.2f}".format(Prices('LTC').last_price() - Prices('LTC').first_price()),
                            ltc_data=Prices('LTC').widget_graph(),
-                           comments=Comments(['bitcoin', 'ethereum', 'litecoin']).get_comments())
+                           comments=Comments(['bitcoin', 'ethereum', 'litecoin']).get_comments(),
+                           news=News(['bitcoin', 'ethereum', 'litecoin']).get_news())
 
 @app.route("/bitcoin", methods=['GET', 'POST'])
 def bitcoin():

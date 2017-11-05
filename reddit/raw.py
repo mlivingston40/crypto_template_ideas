@@ -1,6 +1,8 @@
 import requests
 
+
 class Comments:
+
     def __init__(self, keywords):
 
         self.keywords = keywords
